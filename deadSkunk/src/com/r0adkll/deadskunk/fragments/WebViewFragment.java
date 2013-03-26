@@ -3,6 +3,7 @@ package com.r0adkll.deadskunk.fragments;
 import com.r0adkll.deadskunk.R;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,7 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 /**
  * This fragment will be used to display a page in a webview
@@ -44,10 +48,13 @@ public class WebViewFragment extends Fragment{
 	 * Variables
 	 */
 	private WebView _web;
+	private ProgressBar _loading;
 	private String _url;
 	private boolean _zoomCtrls = false;
 	private boolean _fullScreen = false;
 
+	private MenuItem _back, _forward;
+	
 	/***********************************************************
 	 * Lifecycle Methods 
 	 * 
@@ -61,6 +68,7 @@ public class WebViewFragment extends Fragment{
 
 		// Load the Webview from layout
 		_web = (WebView) getActivity().findViewById(R.id.webview);
+		_loading = (ProgressBar) getActivity().findViewById(R.id.loadingBar);
 
 		// Initialize the webview
 		initWebView();
@@ -78,13 +86,27 @@ public class WebViewFragment extends Fragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
     	menu.clear();
+    	inflater.inflate(R.menu.menu_webview, menu);
+    	_back = menu.findItem(R.id.menu_back);
+    	_forward = menu.findItem(R.id.menu_forward);
     }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		switch(item.getItemId()){
-		case android.R.id.home:
+		int id = item.getItemId();
+		if(id == android.R.id.home){
 			getFragmentManager().popBackStack();
+			return true;
+		}else if(id == R.id.menu_back){
+			if(_web.canGoBack())
+				_web.goBack();			
+			return true;
+		}else if(id == R.id.menu_forward){
+			if(_web.canGoForward())
+				_web.goForward();
+			return true;
+		}else if(id == R.id.menu_refresh){
+			_web.reload();
 			return true;
 		}
 		return false;
@@ -119,7 +141,45 @@ public class WebViewFragment extends Fragment{
 		_web.getSettings().setBuiltInZoomControls(_zoomCtrls);
 		_web.getSettings().setLoadWithOverviewMode(_fullScreen);
 		_web.getSettings().setUseWideViewPort(_fullScreen);
-		_web.loadUrl(_url);		
+		_web.setWebViewClient(mClient);
+		_web.loadUrl(_url);	
 	}
+	
+	private void checkActionStatus(){
+		_back.setEnabled(_web.canGoBack());
+		_forward.setEnabled(_web.canGoForward());
+	}
+	
+	/***********************************************************
+	 * Inner Classes and Interfaces
+	 * 
+	 */
+	
+	/**
+	 * Simple WebViewClient that merely monitors page load start and ends
+	 */
+	private WebViewClient mClient = new WebViewClient(){
+		@Override
+		public void onPageFinished(WebView view, String url){
+			super.onPageFinished(view, url);
+			
+			checkActionStatus();
+			
+			_loading.setVisibility(View.INVISIBLE);
+			_web.bringToFront();
+			
+		}
+		
+		@Override
+		public void onPageStarted(WebView view, String url, Bitmap favicon){
+			super.onPageStarted(view, url, favicon);
+			
+			checkActionStatus();
+			
+			_loading.setVisibility(View.VISIBLE);
+			_loading.bringToFront();
+			
+		}
+	};
 
 }
