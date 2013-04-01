@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	    
+    <!-- Colors --> 
+    <color name="smoked_white">#F5F5F5</color>        
+    <color name="grey80">#99323232</color>
+    <color name="headerGrey">#dddddd</color>
+    <color name="darkGrey">#666666</color>
+        
+    <!-- Standard Color Values -->
+    <color name="transparent">#00000000</color>
+    <color name="black50">#80000000</color>
+    <color name="black">#000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="holo_green">#99cc00</color>
+    <color name="holo_darkGreen">#669900</color>
+    <color name="holo_grey">#555555</color>
+    <color name="holo_darkGrey">#333333</color>
+
+</resources>

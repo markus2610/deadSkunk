@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.r0adkll.deadskunk.R;
 import com.r0adkll.deadskunk.R.drawable;
@@ -130,6 +134,53 @@ public class DialogFactory {
 		alert.show();
 	}
 
+	
+	/**
+	 * Create a EditText Alert Dialog Box
+	 * @param ctx
+	 * @param callback
+	 * @return
+	 */
+	public static void createEditTextDialog(final Context ctx, final String title, final String message,  final ITextEntered callback){
+		LayoutInflater inflater = LayoutInflater.from(ctx);
+		View v = inflater.inflate(R.layout.layout_nicknamedialog, null, false);
+		final EditText enter_nickname = (EditText)v.findViewById(R.id.et_enternickname);        
+		enter_nickname.setHint(message);
+		
+		AlertDialog diag = new AlertDialog.Builder(ctx)
+			.setTitle(title)
+			.setView(v)
+	
+			.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+	
+					// Hide the Soft Keyboard
+					InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(enter_nickname.getWindowToken(), 0);
+	
+					// Call Callback
+					callback.textComfirmed(enter_nickname.getText().toString());
+	
+				}
+			})
+	
+			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Hide Soft Keyboard
+					InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(enter_nickname.getWindowToken(), 0);
+	
+					// Callback
+					callback.textCanceled();
+					dialog.dismiss();
+				}
+			}).create();
+		
+		// Show Dialog
+		diag.show();
+	}
 
 	/**
 	 * Alert Dialog Listener
@@ -141,7 +192,15 @@ public class DialogFactory {
 		public void onCanceled();
 	}
 
-
+	/**
+	 * 
+	 * @author drew.heavner
+	 *
+	 */
+	public interface ITextEntered{
+		public void textComfirmed(String nickname);
+		public void textCanceled();
+	}
 
 
 

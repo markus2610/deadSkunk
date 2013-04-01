@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.StreamCorruptedException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -183,6 +187,58 @@ public class FileUtils {
 				e.printStackTrace();
 			}
 		}
+		return null;
+	}
+	
+	/**
+	 * Write a serializable object to the cache
+	 * @param ctx
+	 * @param filepath
+	 * @param obj
+	 * @return
+	 */
+	public static int writeObjectToInternal(Context ctx, String filename, Serializable obj){
+		int code = FileUtils.IO_FAIL;
+
+		try {
+			File filesDir = ctx.getFilesDir();
+			File output = new File(filesDir, filename);
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(output));
+			oos.writeObject(obj);
+			oos.close();
+			code = FileUtils.IO_SUCCESS;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return code;
+	}
+	
+	/**
+	 * Read an object from disk that was written via serialization
+	 * @param ctx
+	 * @param filename
+	 * @return
+	 */
+	public static Object readObject(Context ctx, String filename){
+		try {
+			File filesDir = ctx.getFilesDir();
+			File input = new File(filesDir, filename);
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input));
+			Object src = ois.readObject();
+			ois.close();
+			return src;
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	
