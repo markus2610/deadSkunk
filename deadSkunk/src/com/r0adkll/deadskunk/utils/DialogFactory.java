@@ -3,11 +3,18 @@ package com.r0adkll.deadskunk.utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.r0adkll.deadskunk.R;
 import com.r0adkll.deadskunk.R.drawable;
@@ -143,12 +150,13 @@ public class DialogFactory {
 	 */
 	public static void createEditTextDialog(final Context ctx, final String title, final String message,  final ITextEntered callback){
 		LayoutInflater inflater = LayoutInflater.from(ctx);
-		View v = inflater.inflate(R.layout.layout_nicknamedialog, null, false);
-		final EditText enter_nickname = (EditText)v.findViewById(R.id.et_enternickname);        
+		View v = inflater.inflate(R.layout.layout_edittext_dialog, null, false);
+		TextView ltit = (TextView) v.findViewById(R.id.title);
+		ltit.setText(title);
+		final EditText enter_nickname = (EditText)v.findViewById(R.id.text_input);        
 		enter_nickname.setHint(message);
 		
-		AlertDialog diag = new AlertDialog.Builder(ctx)
-			.setTitle(title)
+		AlertDialog diag = new AlertDialog.Builder(new ContextThemeWrapper(ctx, android.R.style.Theme_Holo_Dialog))
 			.setView(v)
 	
 			.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
@@ -181,6 +189,37 @@ public class DialogFactory {
 		// Show Dialog
 		diag.show();
 	}
+	
+	/**
+	 * Create a EditText Alert Dialog Box
+	 * @param ctx
+	 * @param callback
+	 * @return
+	 */
+	public static void createListViewDialog(final Context ctx, final String title, BaseAdapter adapter,  final IListViewItemSelectListener callback){
+				
+		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.layout_listview_dialog, null, false);
+		ListView list = (ListView)layout.findViewById(R.id.list);
+		TextView vTitle = (TextView)layout.findViewById(R.id.title);
+		vTitle.setText(title);
+		list.setAdapter(adapter);
+		
+		final AlertDialog diag = new AlertDialog.Builder(ctx)
+			.setView(layout)
+			.create();
+		
+		list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+				callback.onItemSelected(position);
+				diag.dismiss();
+			}
+		});
+		
+		// Show Dialog
+		diag.show();
+	}
 
 	/**
 	 * Alert Dialog Listener
@@ -200,6 +239,10 @@ public class DialogFactory {
 	public interface ITextEntered{
 		public void textComfirmed(String nickname);
 		public void textCanceled();
+	}
+	
+	public interface IListViewItemSelectListener{
+		public void onItemSelected(int position);
 	}
 
 

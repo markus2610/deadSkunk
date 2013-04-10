@@ -21,7 +21,7 @@
              when the user clicks the handle. Default is true. -->
         <attr name="animateOnClick" format="boolean" />
     </declare-styleable>
-    
+        
     <!-- Standard orientation constant. -->
     <attr name="orientation">
         <!-- Defines an horizontal widget. -->

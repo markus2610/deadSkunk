@@ -3,6 +3,7 @@ package com.r0adkll.deadskunk.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,10 +75,12 @@ public abstract class BetterListAdapter<T> extends ArrayAdapter<T>{
 		}	
 		
 		// bind the data to the holder
-		bindHolder(holder, position);		
+		bindHolder(holder, position);	
 		
 		return convertView;
 	}
+	
+	
 	
 	/**
 	 * Create View/View holder
