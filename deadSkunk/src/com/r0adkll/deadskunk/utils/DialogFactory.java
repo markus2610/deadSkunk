@@ -5,10 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.util.Pair;
+import android.util.Xml.Encoding;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -151,15 +155,15 @@ public class DialogFactory {
 	public static void createEditTextDialog(final Context ctx, final String title, final String message,  final ITextEntered callback){
 		LayoutInflater inflater = LayoutInflater.from(ctx);
 		View v = inflater.inflate(R.layout.layout_edittext_dialog, null, false);
-		TextView ltit = (TextView) v.findViewById(R.id.title);
-		ltit.setText(title);
+		
 		final EditText enter_nickname = (EditText)v.findViewById(R.id.text_input);        
 		enter_nickname.setHint(message);
 		
-		AlertDialog diag = new AlertDialog.Builder(new ContextThemeWrapper(ctx, android.R.style.Theme_Holo_Dialog))
+		AlertDialog diag = new AlertDialog.Builder(new ContextThemeWrapper(ctx, android.R.style.Theme_Holo_Light_Dialog))
+			.setTitle(title)
 			.setView(v)
 	
-			.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 	
@@ -219,6 +223,101 @@ public class DialogFactory {
 		
 		// Show Dialog
 		diag.show();
+	}
+	
+	/**
+	 * Create a EditText Alert Dialog Box
+	 * @param ctx
+	 * @param callback
+	 * @return
+	 */
+	public static void createListViewDialog(final Context ctx, final String title, final Pair<String, String> actions,  
+			BaseAdapter adapter,  final IListViewItemSelectListener callback, final IAlertListener handler){
+				
+		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.layout_vanilla_listview_dialog, null, false);
+		((TextView)layout.findViewById(R.id.title)).setText(title);
+		
+		ListView list = (ListView)layout.findViewById(R.id.list);
+		list.setAdapter(adapter);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		builder.setView(layout);
+		
+		if(handler != null && actions != null){
+			if(actions.first != null){
+				builder.setPositiveButton(actions.first, new OnClickListener() {				
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handler.onConfirmed();
+					}
+				});				
+			}
+			
+			if(actions.second != null){
+				builder.setNegativeButton(actions.second, new OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handler.onCanceled();
+					}
+				});
+			}
+		}
+		
+		// Create Dialog and show
+		final AlertDialog diag = builder.create();		
+		list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+				callback.onItemSelected(position);
+				diag.dismiss();
+			}
+		});
+		
+		// Show Dialog
+		diag.show();
+	}
+	
+	/**
+	 * Create a webview dialog and fill it with html from a string
+	 * @param ctx		the application context
+	 * @param title		the summary title
+	 * @param content	the HTML content
+	 * @param handler	the callback
+	 */
+	public static void createWebViewDialog(final Context ctx, final String title, final String content, final IAlertListener handler){
+		// Create WebView Object
+		WebView web = new WebView(ctx);
+		
+		// Load Content
+		web.loadData(content, "text/html", Encoding.UTF_8.toString());
+		
+		// Create the Custom Alert Dialog
+		AlertDialog diag = new AlertDialog.Builder(ctx)
+			.setTitle(title)
+			.setView(web)
+			
+			.setPositiveButton("Export", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Return to callback
+					handler.onConfirmed();
+					dialog.dismiss();
+				}
+			})
+	
+			.setNegativeButton("Done", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+	
+					// Callback
+					handler.onCanceled();
+					dialog.dismiss();
+				}
+			}).create();
+		
+		// Show the Dialog
+		diag.show();		
 	}
 
 	/**

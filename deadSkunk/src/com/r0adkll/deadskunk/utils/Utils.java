@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -233,6 +235,39 @@ public class Utils {
 			return bytes + " b";
 				
 	}
+	
+	/**
+	 * Start the email with pre-filled information
+	 */
+	public static void sendSupportEmail(Context ctx, String subject){
+		
+		// Create Email Intent
+		Intent email = new Intent(Intent.ACTION_SEND);
+		email.setType("plain/text");
+		email.putExtra(Intent.EXTRA_EMAIL, new String[] {"support@52apps.com"});
+		email.putExtra(Intent.EXTRA_SUBJECT, subject);
+		
+		// Start Intent
+		ctx.startActivity(Intent.createChooser(email, "Send Support Email"));		
+	}
+	
+	/**
+	 * Launch the Play Store details of this app
+	 * @param ctx
+	 */
+	public static void openAppDetails(Context ctx){
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse("market://details?id=" + ctx.getPackageName()));
+		ctx.startActivity(i);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * Easy method for Logging 'DEBUG' messages

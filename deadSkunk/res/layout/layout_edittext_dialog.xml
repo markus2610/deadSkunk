@@ -4,37 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-        android:background="@color/holo_darkGrey">
-
-    <RelativeLayout
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/holo_darkGreen" >
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:paddingBottom="16dp"
-            android:text="Title"
-            android:textSize="22sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_alignBottom="@+id/title"
-            android:background="@color/holo_darkDarkGreen" />
-    </RelativeLayout>
+    >
 
     <EditText
         android:id="@+id/text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textColorHint="@color/holo_lightGrey"
-        android:textColor="@color/holo_darkGreen"
+        android:inputType="textCapSentences"
         />
 
 </LinearLayout>
