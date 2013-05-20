@@ -1,14 +1,5 @@
 package com.r0adkll.deadskunk.utils;
 
-import java.net.URLConnection;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.IllegalFormatException;
-import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,6 +7,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import java.net.URLConnection;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.IllegalFormatException;
+import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is the standard utils file containing common util functions
@@ -34,13 +33,13 @@ public class Utils {
 	 * The 'VERBOSE' flag, this switches all log statements
 	 * that run throught this classes log shortcut functions
 	 */
-	public static final boolean VERBOSE = true;	
+	public static final boolean VERBOSE = false;	
 	
 	/*
 	 * This is the 'DEBUG' flag that signifies whether this application 
 	 * is in development mode, or production mode
 	 */
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	
 	/*
 	 * This is hte 'FREE_VERSION' flag that signifies whether this build

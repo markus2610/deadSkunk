@@ -16,8 +16,6 @@
 
 package com.r0adkll.deadskunk.views;
 
-import com.r0adkll.deadskunk.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -27,13 +25,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import com.r0adkll.deadskunk.R;
 
 /**
  * ======= THIS HAS BEEN PULLED FROM THE AOSP SOURCE CODE TO ENSURE ITS USE ============

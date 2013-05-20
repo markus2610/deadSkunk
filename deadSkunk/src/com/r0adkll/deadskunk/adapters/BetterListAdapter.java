@@ -1,13 +1,12 @@
 package com.r0adkll.deadskunk.adapters;
 
-import java.util.List;
-
 import android.content.Context;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import java.util.List;
 
 /**
  * Optimized List adapter based on Android Effiecent List Adapter

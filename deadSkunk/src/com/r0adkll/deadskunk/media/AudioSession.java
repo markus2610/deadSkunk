@@ -1,8 +1,8 @@
 package com.r0adkll.deadskunk.media;
 
-import java.io.File;
-
 import android.net.Uri;
+
+import java.io.File;
 
 /**
  * Recorded Audio Session

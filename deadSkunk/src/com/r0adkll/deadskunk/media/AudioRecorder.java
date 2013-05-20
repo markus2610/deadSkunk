@@ -1,11 +1,9 @@
 package com.r0adkll.deadskunk.media;
 
-import java.io.IOException;
-
+import android.media.MediaRecorder;
 import com.r0adkll.deadskunk.utils.Utils;
 
-
-import android.media.MediaRecorder;
+import java.io.IOException;
 
 /**
  * The Audio Recording class 

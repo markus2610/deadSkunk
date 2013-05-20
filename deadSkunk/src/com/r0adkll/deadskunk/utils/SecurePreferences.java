@@ -24,20 +24,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  */
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Base64;
+import java.io.UnsupportedEncodingException;
+import java.security.*;
 
 
 public class SecurePreferences {

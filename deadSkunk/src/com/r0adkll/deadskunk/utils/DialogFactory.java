@@ -3,7 +3,6 @@ package com.r0adkll.deadskunk.utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Pair;
@@ -13,15 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.r0adkll.deadskunk.R;
-import com.r0adkll.deadskunk.R.drawable;
 
 /**
  * This pump-outs easily configured
@@ -144,6 +137,46 @@ public class DialogFactory {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
+	
+	/**
+	 * Creates an Alert Dialog that has 2 action options of 'Yes' and 'No' in the form of the 
+	 * call back functions 'onConfirmed()' and 'onCanceled()'
+	 * @param ctx     the application context to create the dialog with
+	 * @param msg     the message of the alert dialog class
+	 * @param title     the title of the alert dialog
+	 * @param listener    the action listener for button clicks
+	 */
+	public static void createAlertDialog(Context ctx, int icon, String posBtn, String negBtn, String msg, String title, final IAlertListener listener){
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		builder.setTitle(title)
+		.setMessage(msg)
+		.setCancelable(false)    
+
+		.setPositiveButton(posBtn, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(listener!=null) listener.onConfirmed();
+				dialog.dismiss();
+			}
+		})
+
+		.setNegativeButton(negBtn, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				if(listener!=null) listener.onCanceled();
+				dialog.cancel();
+			}
+		});
+		
+		// Add the icon if available
+		if(icon != -1)
+			builder.setIcon(icon);
+		
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
 	
 	/**
@@ -192,6 +225,9 @@ public class DialogFactory {
 		
 		// Show Dialog
 		diag.show();
+		enter_nickname.requestFocus();
+		InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}
 	
 	/**

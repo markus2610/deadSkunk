@@ -1,7 +1,5 @@
 package com.r0adkll.deadskunk.views;
 
-import com.r0adkll.deadskunk.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -9,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import com.r0adkll.deadskunk.R;
 
 public class ClickableSlidingDrawer extends SlidingDrawer
 {

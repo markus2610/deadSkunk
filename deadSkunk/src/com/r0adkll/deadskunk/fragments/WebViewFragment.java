@@ -1,16 +1,10 @@
 package com.r0adkll.deadskunk.fragments;
 
-import com.r0adkll.deadskunk.R;
-
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.webkit.WebView;
+import com.r0adkll.deadskunk.R;
 
 /**
  * This fragment will be used to display a page in a webview

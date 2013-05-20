@@ -1,13 +1,12 @@
 package com.r0adkll.deadskunk.media;
 
-import java.io.IOException;
-
-import com.r0adkll.deadskunk.utils.Utils;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import com.r0adkll.deadskunk.utils.Utils;
+
+import java.io.IOException;
 
 /**
  * This class manages playing Audio Session Objects

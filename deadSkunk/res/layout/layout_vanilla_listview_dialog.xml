@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     
     <RelativeLayout
         android:id="@+id/title_bar"
@@ -18,10 +17,12 @@
             android:paddingBottom="16dp"
             android:text="Title"
             android:gravity="center"
-            android:textSize="18dp" 
+            android:textSize="22sp" 
             android:fontFamily="sans-serif"
             android:textStyle="bold"
-            android:textColor="#555555"
+            android:textColor="#37A3C7"
+            android:maxLines="2"
+            android:ellipsize="end"
             />
 
         <View
