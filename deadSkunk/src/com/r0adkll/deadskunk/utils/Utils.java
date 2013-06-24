@@ -33,13 +33,13 @@ public class Utils {
 	 * The 'VERBOSE' flag, this switches all log statements
 	 * that run throught this classes log shortcut functions
 	 */
-	public static final boolean VERBOSE = false;	
+	public static final boolean VERBOSE = true;
 	
 	/*
 	 * This is the 'DEBUG' flag that signifies whether this application 
 	 * is in development mode, or production mode
 	 */
-	public static boolean DEBUG = false;
+	public static boolean DEBUG = true;
 	
 	/*
 	 * This is hte 'FREE_VERSION' flag that signifies whether this build
@@ -303,6 +303,16 @@ public class Utils {
 	public static void logw(String tag, String msg){
 		log(Log.WARN, tag, msg);
 	}
+
+    /**
+     * Easy method for Loggin 'WTF' messages
+     * @param tag
+     * @param msg
+     */
+    public static void logwtf(String tag, String msg){
+        if(VERBOSE && DEBUG)
+            Log.wtf(tag, msg);
+    }
 	
 	/**
 	 * Easy Wrapper to printing to android Log

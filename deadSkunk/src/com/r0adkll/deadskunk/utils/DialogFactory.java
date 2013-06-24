@@ -53,7 +53,6 @@ public class DialogFactory {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setTitle(title)
-		.setIcon(R.drawable.ic_launcher)
 		.setMessage(message)
 		.setCancelable(false)             
 		.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
@@ -65,6 +64,29 @@ public class DialogFactory {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
+
+    /**
+     * Create an Alert Dialog that displays information to a user
+     * and the only action is 'Ok' which closes it
+     *
+     * @param message   the server reponse message
+     */
+    public static void createAlertDialog(Context ctx, int icon, String message, String title){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle(title)
+                .setIcon(icon)
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 	/**
 	 * Creates an Alert Dialog that has 2 action options of 'Yes' and 'No' in the form of the 
@@ -114,7 +136,6 @@ public class DialogFactory {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setTitle(title)
-		.setIcon(R.drawable.ic_launcher)
 		.setMessage(msg)
 		.setCancelable(false)    
 
@@ -205,7 +226,7 @@ public class DialogFactory {
 					imm.hideSoftInputFromWindow(enter_nickname.getWindowToken(), 0);
 	
 					// Call Callback
-					callback.textComfirmed(enter_nickname.getText().toString());
+					callback.textConfirmed(enter_nickname.getText().toString());
 	
 				}
 			})
@@ -372,7 +393,7 @@ public class DialogFactory {
 	 *
 	 */
 	public interface ITextEntered{
-		public void textComfirmed(String nickname);
+		public void textConfirmed(String nickname);
 		public void textCanceled();
 	}
 	

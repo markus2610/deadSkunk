@@ -55,14 +55,14 @@ public class ProgressInputStream extends FilterInputStream {
     }
 
     /**
-     * Internal method to update the download progress
+     * Internal method to update the io progress
      *
      * @param numBytesRead
      * @return
      */
     private int updateProgress(final int numBytesRead) {
         if (numBytesRead > 0) {
-            mTotalBytesRead += numBytesRead;
+            mTotalBytesRead += (numBytesRead / 2);
         }
 
         // Update the progress listener

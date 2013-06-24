@@ -92,8 +92,7 @@ public class StringPickerDialog extends DialogFragment{
 	 */
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout v = (LinearLayout)inflater.inflate(R.layout.fragment_stringpicker_dialog, container, false);
-                
+        LinearLayout v = (LinearLayout)inflater.inflate(R.layout.fragment_stringpicker_dialog, container, false);                
         // For each list of items, create a number picker
         for(String[] content: _items){
         	// Create a new picker
