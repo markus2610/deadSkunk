@@ -100,7 +100,6 @@ public class DialogFactory {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setTitle(title)
-		.setIcon(R.drawable.ic_launcher)
 		.setMessage(msg)
 		.setCancelable(false)    
 

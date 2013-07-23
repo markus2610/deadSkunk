@@ -174,6 +174,14 @@ public class Utils {
 	    }
 	    return type;
 	}
+
+    public static String getMimeTypeFromExt(String ext){
+        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+        if(mime != null)
+            return mime;
+        else
+            return "";
+    }
 	
 	/**
 	 * Parse a file's mime type from the file extension
