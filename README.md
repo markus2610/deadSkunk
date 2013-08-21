@@ -29,6 +29,7 @@ This is my personal Android library filled with useful tools that i have built o
 * **RootTools** 			  - Root utility library [RootTools](https://code.google.com/p/roottools/)
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
 * **LicenseFragment**   - an easy way to display library attributions in a card-like layout all from a XML layout file
+
 ---
 
 ### Author
