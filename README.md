@@ -3,8 +3,8 @@ deadSkunk
 
 This is my personal Android library filled with useful tools that i have built over the year, i continue to improve them as i continue my job as an Android Developer.
 
-### Features
 ---
+### Features
 
 * <b>BetterListAdapter</b>      - A list adapter that re-uses views and is far more efficient than the plain way
 * <b>SimpleSectionAdapter</b>   - A simple adapter for applying non-sticky listview sections and section headers
@@ -26,3 +26,13 @@ This is my personal Android library filled with useful tools that i have built o
 * <b>PhotoView</b>              - MERGED: Chris Banes photoview from his PhotoUp app
 * <b>AspectRatioImageView</b>   - an image view that maintains the aspect ratio of the source image
 * <b>SmoothSeekBarChangeListener</b> - a helper class that smooths out seekbar seeking no matter the range of values
+
+---
+
+### Author
+* <b>Drew Heavner</b> - www.r0adkll.net
+
+---
+
+### License
+* Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0
