@@ -28,24 +28,12 @@ public class Utils {
 	/**
 	 * Constants
 	 */
-	
-	/*
-	 * The 'VERBOSE' flag, this switches all log statements
-	 * that run throught this classes log shortcut functions
-	 */
-	public static final boolean VERBOSE = true;
-	
+
 	/*
 	 * This is the 'DEBUG' flag that signifies whether this application 
 	 * is in development mode, or production mode
 	 */
 	public static boolean DEBUG = true;
-	
-	/*
-	 * This is hte 'FREE_VERSION' flag that signifies whether this build
-	 * is the Full Price Version, or the Free Version 
-	 */
-	public static boolean FREE_VERSION = false;
 	
 	/**
 	 * Variables
@@ -186,7 +174,7 @@ public class Utils {
 	/**
 	 * Parse a file's mime type from the file extension
 	 * 
-	 * @param ext
+	 * @param filename
 	 * @return
 	 */
 	public static String parseMimeType(String filename){
@@ -246,12 +234,12 @@ public class Utils {
 	/**
 	 * Start the email with pre-filled information
 	 */
-	public static void sendSupportEmail(Context ctx, String subject){
+	public static void sendSupportEmail(Context ctx, String addr, String subject){
 		
 		// Create Email Intent
 		Intent email = new Intent(Intent.ACTION_SEND);
 		email.setType("plain/text");
-		email.putExtra(Intent.EXTRA_EMAIL, new String[] {"support@52apps.com"});
+		email.putExtra(Intent.EXTRA_EMAIL, new String[] { addr });
 		email.putExtra(Intent.EXTRA_SUBJECT, subject);
 		
 		// Start Intent
@@ -267,13 +255,6 @@ public class Utils {
 		i.setData(Uri.parse("market://details?id=" + ctx.getPackageName()));
 		ctx.startActivity(i);
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -318,7 +299,7 @@ public class Utils {
      * @param msg
      */
     public static void logwtf(String tag, String msg){
-        if(VERBOSE && DEBUG)
+        if(DEBUG)
             Log.wtf(tag, msg);
     }
 	
@@ -329,7 +310,7 @@ public class Utils {
 	 * @param tag			the identifing tag
 	 */
 	public static void log(int priority, String tag, String msg){
-		if(VERBOSE && DEBUG)
+		if(DEBUG)
 			Log.println(priority, tag, msg);
 	}
 
