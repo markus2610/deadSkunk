@@ -1,6 +1,5 @@
 package com.r0adkll.deadskunk.fragments;
 
-import android.animation.Animator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
@@ -195,6 +194,9 @@ public class LicenseFragment extends Fragment {
                     Library lib = new Library(name, author, source, "", license);
                     libs.add(lib);
 
+                    // Log
+                    Utils.log(TAG, "Library parsed - " + lib.toString());
+
                     //break;  ? Do i need this??
                 }
                 eventType = parser.next();
@@ -321,7 +323,7 @@ public class LicenseFragment extends Fragment {
      * Third party library representation class.
      * This contains all the information for specific library
      */
-    public static class Library {
+    private static class Library {
         /**
          * Variables
          */
@@ -372,6 +374,15 @@ public class LicenseFragment extends Fragment {
             this.licenseLink = licenseLink;
         }
 
+        /**
+         * Get a human-readable representation of this
+         * class
+         * @return  the class in string form
+         */
+        @Override
+        public String toString() {
+            return "[" + name + ":" + author + "] source[" + link + "] license[" + licenseLink + "]";
+        }
     }
 
 }
