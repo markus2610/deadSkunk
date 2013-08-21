@@ -62,6 +62,16 @@ public class Utils {
 	 * @return
 	 */
 	public static Random getRandom(){ return random; }
+
+    /**
+     * Get a random object freshly seeded with
+     * the systems nano time
+     *
+     * @return  nano seeded random
+     */
+    public static Random getNanoRandom(){
+        return new Random(System.nanoTime());
+    }
 	
 	/**
 	 * Format a time in milliseconds to 'hh:mm:ss' format
