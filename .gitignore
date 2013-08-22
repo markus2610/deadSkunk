@@ -31,3 +31,6 @@ local.properties
 *.ipr
 *~
 *.swp
+*.iml
+
+deadSkunk/deadSkunk.iml

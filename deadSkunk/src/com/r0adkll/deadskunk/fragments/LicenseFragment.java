@@ -236,7 +236,7 @@ public class LicenseFragment extends Fragment {
     /**
      * The list adapter for the license fragment
      */
-    private static class LibraryListAdapter extends BetterListAdapter<Library>{
+    public static class LibraryListAdapter extends BetterListAdapter<Library>{
 
         /**
          * Variables
