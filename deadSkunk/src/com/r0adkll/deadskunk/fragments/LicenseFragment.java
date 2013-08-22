@@ -266,6 +266,7 @@ public class LicenseFragment extends Fragment {
         @Override
         public ViewHolder createHolder(View view) {
             LibraryViewHolder holder = new LibraryViewHolder();
+            holder.view = view;
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.author = (TextView) view.findViewById(R.id.author);
             holder.source = (ImageView) view.findViewById(R.id.source_link);
@@ -297,6 +298,13 @@ public class LicenseFragment extends Fragment {
                 }
             });
 
+            lvh.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mActionListener != null) mActionListener.onSourceClicked(data.link);
+                }
+            });
+
         }
 
         /**
@@ -305,6 +313,7 @@ public class LicenseFragment extends Fragment {
         static class LibraryViewHolder extends ViewHolder{
             TextView name, author;
             ImageView source, license;
+            View view;
         }
 
         /**

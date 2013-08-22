@@ -3,7 +3,11 @@ package com.r0adkll.deadskunk.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+
 import com.r0adkll.deadskunk.R;
 
 /**
@@ -38,6 +42,8 @@ public class WebViewFragment extends Fragment{
 	 * Variables
 	 */
 	private WebView _web;
+    private ProgressBar _loading;
+
 	private String _url;
 	private boolean _zoomCtrls = false;
 	private boolean _fullScreen = false;
@@ -55,6 +61,7 @@ public class WebViewFragment extends Fragment{
 
 		// Load the Webview from layout
 		_web = (WebView) getActivity().findViewById(R.id.webview);
+        _loading = (ProgressBar) getActivity().findViewById(R.id.loading_bar);
 
 		// Initialize the webview
 		initWebView();
@@ -90,6 +97,14 @@ public class WebViewFragment extends Fragment{
 	 * 
 	 */
 
+    public void showLoading(){
+        _loading.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading(){
+        _loading.setVisibility(View.INVISIBLE);
+    }
+
 	/**
 	 * Set the webview's URL
 	 * @param url		the url to display
@@ -113,7 +128,25 @@ public class WebViewFragment extends Fragment{
 		_web.getSettings().setBuiltInZoomControls(_zoomCtrls);
 		_web.getSettings().setLoadWithOverviewMode(_fullScreen);
 		_web.getSettings().setUseWideViewPort(_fullScreen);
-		_web.loadUrl(_url);		
+
+        // Set the webview client
+        _web.setWebViewClient(webClient);
+
+        // Load the URL
+		_web.loadUrl(_url);
+        showLoading();
 	}
+
+
+    /**
+     * The webview client
+     */
+    private WebViewClient webClient = new WebViewClient(){
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            hideLoading();
+        }
+    };
 
 }
