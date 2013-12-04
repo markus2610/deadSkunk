@@ -1,9 +1,0 @@
-This is a notice of works included in this project
---------------------------------------------------
-
-1) Android-Async-Http (https://github.com/loopj/android-async-http)
-   * License: http://www.apache.org/licenses/LICENSE-2.0
-
-2) PhotoView (https://github.com/chrisbanes/PhotoView) Copyright 2011, 2012 Chris Banes
-   * License: http://www.apache.org/licenses/LICENSE-2.0
-
