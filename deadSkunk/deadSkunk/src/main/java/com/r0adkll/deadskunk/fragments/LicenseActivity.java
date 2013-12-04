@@ -43,9 +43,11 @@ public class LicenseActivity extends Activity {
 
     public static final String LIBRARY_TAG = "Library";
     public static final String ATTR_NAME = "name";
-    public static final String ATTR_AUTHOR = "author";
-    public static final String ATTR_SOURCE = "source";
-    public static final String ATTR_LICENSE = "license";
+    public static final String ELEMENT_AUTHOR = "Author";
+    public static final String ELEMENT_SOURCE = "Source";
+    public static final String ELEMENT_LICENSE = "License";
+
+
 
     // The List View
     private ListView mList;
@@ -173,14 +175,36 @@ public class LicenseActivity extends Activity {
                 // Look for tags
                 if(eventType == XmlPullParser.START_TAG && parser.getName().equalsIgnoreCase(LIBRARY_TAG)){
 
-                    // get Attributes
+                    // Get the name of the library from the attributes
                     String name = parser.getAttributeValue(null, ATTR_NAME);
-                    String author = parser.getAttributeValue(null, ATTR_AUTHOR);
-                    String source = parser.getAttributeValue(null, ATTR_SOURCE);
-                    String license = parser.getAttributeValue(null, ATTR_LICENSE);
+                    String author = "";
+                    String source = "";
+                    String license = "";
+
+                    // Pull next library element
+                    int innerEventType = parser.next();
+                    while(innerEventType != XmlPullParser.END_TAG && !parser.getName().equalsIgnoreCase(LIBRARY_TAG)){
+
+                        if(innerEventType == XmlPullParser.START_TAG){
+
+                            // Get the current tag
+                            String element = parser.getName();
+                            if(element.equals(ELEMENT_AUTHOR)){
+                                author = parser.getText();
+                            }else if(element.equals(ELEMENT_SOURCE)){
+                                source = parser.getText();
+                            }else if(element.equals(ELEMENT_LICENSE)){
+                                license = parser.getText();
+                            }
+
+                        }
+
+                        // Proceed to next tag
+                        innerEventType = parser.next();
+                    }
 
                     // Construct library object, and add to return list
-                    Library lib = new Library(name, author, source, "", license);
+                    Library lib = new Library(name, author, source, license);
                     libs.add(lib);
 
                     // Log
@@ -258,7 +282,7 @@ public class LicenseActivity extends Activity {
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.author = (TextView) view.findViewById(R.id.author);
             holder.source = (ImageView) view.findViewById(R.id.source_link);
-            holder.license = (ImageView) view.findViewById(R.id.license_link);
+            holder.licenseText = (TextView) view.findViewById(R.id.license_text);
             return holder;
         }
 
@@ -283,16 +307,6 @@ public class LicenseActivity extends Activity {
                 }
             });
 
-            lvh.license.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(mActionListener != null) mActionListener.onLicenseClicked(data.licenseLink);
-                    else{
-                        Intent link = IntentUtils.openLink(data.licenseLink);
-                        getContext().startActivity(link);
-                    }
-                }
-            });
 
         }
 
@@ -300,8 +314,8 @@ public class LicenseActivity extends Activity {
          * This adapters viewholder
          */
         static class LibraryViewHolder extends ViewHolder{
-            TextView name, author;
-            ImageView source, license;
+            TextView name, author, licenseText;
+            ImageView source;
         }
 
         /**
@@ -315,7 +329,6 @@ public class LicenseActivity extends Activity {
 
     }
 
-
     /**
      * Third party library representation class.
      * This contains all the information for specific library
@@ -328,8 +341,7 @@ public class LicenseActivity extends Activity {
         public String name;
         public String author;
         public String link;
-        public String licenseName;
-        public String licenseLink;
+        public String licenseText;
 
         /**
          * Empty Constructor
@@ -343,15 +355,13 @@ public class LicenseActivity extends Activity {
          * @param nameRes           library name res id
          * @param authorRes         author name res id
          * @param linkRes           library link res id
-         * @param licenseNameRes    library license name res id
-         * @param licenseLinkRes    library license link res id
+         * @param licenText         library license text to display
          */
-        public Library(Context ctx, int nameRes, int authorRes, int linkRes, int licenseNameRes, int licenseLinkRes){
+        public Library(Context ctx, int nameRes, int authorRes, int linkRes, int licenText){
             name = ctx.getString(nameRes);
             author = ctx.getString(authorRes);
             link = ctx.getString(linkRes);
-            licenseName = ctx.getString(licenseNameRes);
-            licenseLink = ctx.getString(licenseLinkRes);
+            licenseText = ctx.getString(licenText);
         }
 
         /**
@@ -360,15 +370,13 @@ public class LicenseActivity extends Activity {
          * @param name
          * @param author
          * @param link
-         * @param licenseName
-         * @param licenseLink
+         * @param licenText
          */
-        public Library(String name, String author, String link, String licenseName, String licenseLink){
+        public Library(String name, String author, String link, String licenText){
             this.name = name;
             this.author = author;
             this.link = link;
-            this.licenseName = licenseName;
-            this.licenseLink = licenseLink;
+            this.licenseText = licenText;
         }
 
         /**
@@ -378,7 +386,7 @@ public class LicenseActivity extends Activity {
          */
         @Override
         public String toString() {
-            return "[" + name + ":" + author + "] source[" + link + "] license[" + licenseLink + "]";
+            return "[" + name + ":" + author + "] source[" + link + "] license[" + licenseText + "]";
         }
     }
 

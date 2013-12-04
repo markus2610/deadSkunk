@@ -12,7 +12,8 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:padding="8dp"
-                  android:background="@drawable/card_selector">
+                  android:background="@drawable/card_selector"
+            >
 
         <TextView
                 android:id="@+id/name"
@@ -46,25 +47,25 @@
             android:contentDescription="View Source"
             />
 
-        <ImageView
-            android:id="@+id/license_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/source_link"
-            android:padding="4dp"
-
-            android:src="@drawable/ic_action_license"
-            android:contentDescription="View License"
-            android:visibility="gone"
-            />
-
     </RelativeLayout>
 
     <!-- License Text -->
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_selector"
+            >
 
+        <TextView
+            android:id="@+id/license_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/headerGrey"
+
+            android:text="@string/mit_license"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            />
 
     </RelativeLayout>
 
