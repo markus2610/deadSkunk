@@ -23,10 +23,8 @@ This is my personal Android library filled with useful tools that i have built o
 * **ProgressInputStream**    - a utility for listening for transfer progress updates
 * **SecurePreferences**      - a helper class for encrypting preference files
 * **Utils**                  - the generic utils class, this contains a random assortment of general help functions, such as switchable logging, conversions, randoms, etc.
-* **PhotoView**              - MERGED: Chris Banes photoview from his PhotoUp app
 * **AspectRatioImageView**   - an image view that maintains the aspect ratio of the source image
 * **SmoothSeekBarChangeListener** - a helper class that smooths out seekbar seeking no matter the range of values
-* **RootTools** 			  - Root utility library [RootTools](https://code.google.com/p/roottools/)
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
 * **LicenseFragment**   - an easy way to display library attributions in a card-like layout all from a XML layout file
 
