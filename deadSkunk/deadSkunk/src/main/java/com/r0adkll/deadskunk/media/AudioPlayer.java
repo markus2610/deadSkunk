@@ -245,6 +245,7 @@ public class AudioPlayer {
 	 */
 	public void release(){
 		if(null != _player){
+            _player.reset();
 			_player.release();
 			_player = null;				// nullify the player
 			_currentSession = null;		// nullify the current session

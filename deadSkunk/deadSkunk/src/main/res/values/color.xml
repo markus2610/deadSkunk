@@ -6,6 +6,8 @@
     <color name="grey80">#99323232</color>
     <color name="headerGrey">#dddddd</color>
     <color name="darkGrey">#666666</color>
+    <color name="playlist_bg">#272727</color>
+    <color name="dialog_pressed">#151515</color>
     
         
     <!-- Standard Color Values -->

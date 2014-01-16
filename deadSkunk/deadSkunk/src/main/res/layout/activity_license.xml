@@ -5,9 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:padding="16dp"
               android:background="@color/card_background"
-              android:layout_marginTop="48dp"
         >
 
     <ListView
@@ -17,6 +15,7 @@
         tools:listitem="@layout/layout_library_item"
         android:divider="@null"
         android:dividerHeight="16dp"
+        android:listSelector="@drawable/transparent_list_selector"
             />
 
 </LinearLayout>

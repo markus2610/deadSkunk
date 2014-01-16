@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -43,9 +44,9 @@ public class LicenseActivity extends Activity {
 
     public static final String LIBRARY_TAG = "Library";
     public static final String ATTR_NAME = "name";
-    public static final String ELEMENT_AUTHOR = "Author";
-    public static final String ELEMENT_SOURCE = "Source";
-    public static final String ELEMENT_LICENSE = "License";
+    public static final String ATTR_AUTHOR = "author";
+    public static final String ATTR_SOURCE = "source";
+    public static final String ATTR_LICENSE = "license";
 
 
 
@@ -114,15 +115,24 @@ public class LicenseActivity extends Activity {
         // Parse Configuration
         mLibraries = parseConfigFile();
 
+        // Create Dummy header/footer views
+        View header = new View(this);
+        View footer = new View(this);
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        header.setLayoutParams(params);
+        footer.setLayoutParams(params);
+        mList.addHeaderView(header, null, false);
+        mList.addFooterView(footer, null, false);
+
         // Create adapter
         mAdapter = new LibraryListAdapter(this, R.layout.layout_library_item, mLibraries);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Library lib = mAdapter.getItem(i);
+                Library lib = (Library) adapterView.getItemAtPosition(i);
 
-                Intent link = IntentUtils.openLink(lib.link);
+                Intent link = IntentUtils.openLink(lib.source);
                 startActivity(link);
             }
         });
@@ -177,40 +187,13 @@ public class LicenseActivity extends Activity {
 
                     // Get the name of the library from the attributes
                     String name = parser.getAttributeValue(null, ATTR_NAME);
-                    String author = "";
-                    String source = "";
-                    String license = "";
-
-                    // Pull next library element
-                    int innerEventType = parser.next();
-                    while(innerEventType != XmlPullParser.END_TAG && !parser.getName().equalsIgnoreCase(LIBRARY_TAG)){
-
-                        if(innerEventType == XmlPullParser.START_TAG){
-
-                            // Get the current tag
-                            String element = parser.getName();
-                            if(element.equals(ELEMENT_AUTHOR)){
-                                author = parser.getText();
-                            }else if(element.equals(ELEMENT_SOURCE)){
-                                source = parser.getText();
-                            }else if(element.equals(ELEMENT_LICENSE)){
-                                license = parser.getText();
-                            }
-
-                        }
-
-                        // Proceed to next tag
-                        innerEventType = parser.next();
-                    }
+                    String author = parser.getAttributeValue(null, ATTR_AUTHOR);
+                    String source = parser.getAttributeValue(null, ATTR_SOURCE);
+                    String license = parser.getAttributeValue(null, ATTR_LICENSE);
 
                     // Construct library object, and add to return list
                     Library lib = new Library(name, author, source, license);
                     libs.add(lib);
-
-                    // Log
-                    Utils.log(TAG, "Library parsed - " + lib.toString());
-
-                    //break;  ? Do i need this??
                 }
                 eventType = parser.next();
             }
@@ -299,15 +282,16 @@ public class LicenseActivity extends Activity {
             lvh.source.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mActionListener != null) mActionListener.onSourceClicked(data.link);
+                    if(mActionListener != null) mActionListener.onSourceClicked(data.source);
                     else{
-                        Intent link = IntentUtils.openLink(data.link);
+                        Intent link = IntentUtils.openLink(data.source);
                         getContext().startActivity(link);
                     }
                 }
             });
 
-
+            // Set License Text
+            lvh.licenseText.setText(data.licenseText);
         }
 
         /**
@@ -340,7 +324,7 @@ public class LicenseActivity extends Activity {
 
         public String name;
         public String author;
-        public String link;
+        public String source;
         public String licenseText;
 
         /**
@@ -354,28 +338,28 @@ public class LicenseActivity extends Activity {
          * @param ctx               application context
          * @param nameRes           library name res id
          * @param authorRes         author name res id
-         * @param linkRes           library link res id
+         * @param sourceRes           library link res id
          * @param licenText         library license text to display
          */
-        public Library(Context ctx, int nameRes, int authorRes, int linkRes, int licenText){
+        public Library(Context ctx, int nameRes, int authorRes, int sourceRes, int licenText){
             name = ctx.getString(nameRes);
             author = ctx.getString(authorRes);
-            link = ctx.getString(linkRes);
+            source = ctx.getString(sourceRes);
             licenseText = ctx.getString(licenText);
         }
 
         /**
          * Plain string constructor
          *
-         * @param name
-         * @param author
-         * @param link
-         * @param licenText
+         * @param name          the name of the library
+         * @param author        the author of the library
+         * @param source        the source link to the library
+         * @param licenText     the license text
          */
-        public Library(String name, String author, String link, String licenText){
+        public Library(String name, String author, String source, String licenText){
             this.name = name;
             this.author = author;
-            this.link = link;
+            this.source = source;
             this.licenseText = licenText;
         }
 
@@ -386,7 +370,7 @@ public class LicenseActivity extends Activity {
          */
         @Override
         public String toString() {
-            return "[" + name + ":" + author + "] source[" + link + "] license[" + licenseText + "]";
+            return "[" + name + ":" + author + "] source[" + source + "] license[" + licenseText + "]";
         }
     }
 

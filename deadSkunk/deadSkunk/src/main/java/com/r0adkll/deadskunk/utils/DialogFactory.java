@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Pair;
 import android.util.Xml.Encoding;
@@ -542,6 +543,41 @@ public class DialogFactory {
 		// Show Dialog
 		diag.show();
 	}
+
+    /**
+     * Create a EditText Alert Dialog Box
+     * @param ctx
+     * @param callback
+     * @return
+     */
+    public static void createListViewDialog(final Context ctx, final String title, BaseAdapter adapter, int selector, final IListViewItemSelectListener callback){
+
+        LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.layout_customlistview_dialog, null, false);
+        ListView list = (ListView)layout.findViewById(R.id.list);
+        list.setSelector(selector);
+
+        View titleBar = layout.findViewById(R.id.title_bar);
+
+        TextView vTitle = (TextView)layout.findViewById(R.id.title);
+        vTitle.setText(title);
+        list.setAdapter(adapter);
+
+        final AlertDialog diag = new AlertDialog.Builder(ctx)
+                .setView(layout)
+                .create();
+
+        list.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                callback.onItemSelected(position);
+                diag.dismiss();
+            }
+        });
+
+        // Show Dialog
+        diag.show();
+    }
 	
 	/**
 	 * Create a EditText Alert Dialog Box
@@ -638,7 +674,57 @@ public class DialogFactory {
 		diag.show();		
 	}
 
-	/**
+    public static void createCustomEditTextDialog(final Context ctx, int style, String title, String message, final ITextEntered callback) {
+        LayoutInflater inflater = LayoutInflater.from(ctx);
+        View v = inflater.inflate(R.layout.layout_customedittext_dialog, null, false);
+
+        final EditText enter_nickname = (EditText)v.findViewById(R.id.text_input);
+        enter_nickname.setHint(message);
+
+        final Button negBtn = (Button) v.findViewById(R.id.negative_button);
+        final Button posBtn = (Button) v.findViewById(R.id.positive_button);
+        final TextView dTitle = (TextView) v.findViewById(R.id.title);
+
+        dTitle.setText(title);
+
+        final AlertDialog diag = new AlertDialog.Builder(ctx)
+                .setView(v)
+                .create();
+
+        negBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Hide Soft Keyboard
+                InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(enter_nickname.getWindowToken(), 0);
+
+                // Callback
+                callback.textCanceled();
+                diag.dismiss();
+            }
+        });
+
+        posBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Hide the Soft Keyboard
+                InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(enter_nickname.getWindowToken(), 0);
+
+                // Call Callback
+                callback.textConfirmed(enter_nickname.getText().toString());
+                diag.dismiss();
+            }
+        });
+
+        // Show Dialog
+        diag.show();
+        enter_nickname.requestFocus();
+        InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    /**
 	 * Alert Dialog Listener
 	 * @author r0adkll
 	 *

@@ -13,7 +13,7 @@
     <dimen name="card_title_margin_left">5dp</dimen>
     <dimen name="card_title">18sp</dimen>
     <dimen name="card_content">17sp</dimen>
-    <dimen name="card_shadow">8dp</dimen>
+    <dimen name="card_shadow">3dp</dimen>
 
     <dimen name="card_header">21sp</dimen>
     <dimen name="card_subheader">15sp</dimen>

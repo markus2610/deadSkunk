@@ -5,6 +5,8 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:paddingTop="@dimen/card_shadow"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
         >
 
     <!-- Library Description Container -->

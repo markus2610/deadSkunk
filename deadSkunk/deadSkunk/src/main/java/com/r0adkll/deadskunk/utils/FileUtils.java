@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class FileUtils {
+    private static final String TAG = "FILE_UTILS";
 
 	/**
 	 * Constants
@@ -68,10 +69,10 @@ public class FileUtils {
 			code = IO_SUCCESS;			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		}
 		return code;		
 	}
@@ -95,10 +96,10 @@ public class FileUtils {
 			return buffer;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		}
 		
 		return null;		
@@ -133,10 +134,10 @@ public class FileUtils {
 				code = IO_SUCCESS;
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 			}
 		}
 		return code;
@@ -172,11 +173,9 @@ public class FileUtils {
 				// Return the raw data
 				return buffer;				
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 			}
 		}
 		return null;
@@ -200,9 +199,9 @@ public class FileUtils {
 			oos.close();
 			code = FileUtils.IO_SUCCESS;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		}
 		return code;
 	}
@@ -222,13 +221,13 @@ public class FileUtils {
 			ois.close();
 			return src;
 		} catch (StreamCorruptedException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
 		}
 		
 		return null;
@@ -281,7 +280,7 @@ public class FileUtils {
 	            sb.append(Character.forDigit(a[i] & 0x0f, 16));
 	        }
 	        return sb.toString();
-	    } catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
+	    } catch (NoSuchAlgorithmException e) { Utils.log(TAG, "Error: " + e.getLocalizedMessage()); }
 	    return null;
 	}
 }
