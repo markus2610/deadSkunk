@@ -32,7 +32,6 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/layout_playlist_item" 
         android:background="@color/playlist_bg"
         />
 

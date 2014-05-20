@@ -7,14 +7,12 @@ This is my personal Android library filled with useful tools that i have built o
 ### Features
 
 * **BetterListAdapter**      - A list adapter that re-uses views and is far more efficient than the plain way
+* **BetterExpandableListAdapter** - An expandable list adapter that re-uses views with the ViewHolder pattern
 * **SimpleSectionAdapter**   - A simple adapter for applying non-sticky listview sections and section headers
-* **FileBrowser Fragment**   - a simple dialog for selecting files or folders from the local disk
-* **PhotoViewer Fragment**   - a simple image preview dialog that appears over the current UI
 * **StringPickerDialog**     - a modal that can have multiple item/number pickers for selecting premade choices
 * **WebViewFragment**        - a very basic no frills WebView fragment for displaying webcontent within your application.
 * **Audio Player**           - a simple thread-safe audio player, can play local and remote files
 * **Audio Recorder**         - a simple thread-safe audio recorder based on the MediaRecorder object. 
-* **AndroidAsyncHttp**       - MERGED: https://github.com/loopj/android-async-http
 * **BCrypt**                 - the handy hashing and crypto library 
 * **FNV Hashing**            - FNV Hash utility
 * **DialogFactory**          - a factory that can easily produce commonly used dialogs (alerts, progress, etc) and some custom ones as well.
@@ -26,12 +24,12 @@ This is my personal Android library filled with useful tools that i have built o
 * **AspectRatioImageView**   - an image view that maintains the aspect ratio of the source image
 * **SmoothSeekBarChangeListener** - a helper class that smooths out seekbar seeking no matter the range of values
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
-* **LicenseFragment**   - an easy way to display library attributions in a card-like layout all from a XML layout file
+* **LicenseActivity**   - an easy way to display library attributions in a card-like layout all from a XML layout file
 
 ---
 
 ### Author
-* **Drew Heavner** - http://r0adkll.net
+* **r0adkll** (Drew Heavner) - [r0adkll.net](http://r0adkll.net)
 
 ---
 
