@@ -11,8 +11,8 @@ This is my personal Android library filled with useful tools that i have built o
 * **SimpleSectionAdapter**   - A simple adapter for applying non-sticky listview sections and section headers
 * **StringPickerDialog**     - a modal that can have multiple item/number pickers for selecting premade choices
 * **WebViewFragment**        - a very basic no frills WebView fragment for displaying webcontent within your application.
-* **Audio Player**           - a simple thread-safe audio player, can play local and remote files
-* **Audio Recorder**         - a simple thread-safe audio recorder based on the MediaRecorder object. 
+* **Audio Player**           - a simple audio player, can play local and remote files
+* **Audio Recorder**         - a simple audio recorder based on the MediaRecorder object. 
 * **BCrypt**                 - the handy hashing and crypto library 
 * **FNV Hashing**            - FNV Hash utility
 * **DialogFactory**          - a factory that can easily produce commonly used dialogs (alerts, progress, etc) and some custom ones as well.
