@@ -24,8 +24,6 @@ This is my personal Android library filled with useful tools that i have built o
 * **AspectRatioImageView**   - an image view that maintains the aspect ratio of the source image
 * **SmoothSeekBarChangeListener** - a helper class that smooths out seekbar seeking no matter the range of values
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
-* **LicenseActivity**   - an easy way to display library attributions in a card-like layout all from a XML layout file
-* **FontLoader** - A roboto font convenience method for easily applying roboto typefaces to textviews 
 * **Pools** - An object recycling pattern that helps to keep for recreating objects
 
 ---
