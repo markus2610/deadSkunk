@@ -1,10 +1,8 @@
-deadSkunk
-=========
+# deadSkunk
 
 This is my personal Android library filled with useful tools that i have built over the year, i continue to improve them as i continue my job as an Android Developer.
 
----
-### Features
+## Features
 
 * **BetterListAdapter**      - A list adapter that re-uses views and is far more efficient than the plain way
 * **BetterExpandableListAdapter** - An expandable list adapter that re-uses views with the ViewHolder pattern
@@ -15,7 +13,6 @@ This is my personal Android library filled with useful tools that i have built o
 * **Audio Recorder**         - a simple audio recorder based on the MediaRecorder object. 
 * **BCrypt**                 - the handy hashing and crypto library 
 * **FNV Hashing**            - FNV Hash utility
-* **DialogFactory**          - a factory that can easily produce commonly used dialogs (alerts, progress, etc) and some custom ones as well.
 * **CacheTool**              - a simple helper class for writing data to the cache partition
 * **FileUtils**              - a simple helper class for writing/reading data from the files partition, as well as external sdCard
 * **ProgressInputStream**    - a utility for listening for transfer progress updates
@@ -26,14 +23,19 @@ This is my personal Android library filled with useful tools that i have built o
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
 * **Pools** - An object recycling pattern that helps to keep for recreating objects
 
----
+## Special Note
+Some of the features that were once in this library have been removed in favor of a better counter-part library that i segmented into it's own entity. Here are the list of my libraries which evolved from some of the features:
 
-### Author
+-	`r0adkll/PostOffice` - A library for creating/displaying Dialogs in Holo or Material Design.
+-	`52inc/FontLoader` - A library for easily applying Roboto fonts to text fields.
+-	`52inc/Attributr` - A library for displaying beautiful license attributions
+
+
+## Author
 * **r0adkll** (Drew Heavner) - [r0adkll.net](http://r0adkll.net)
 
----
 
-### License
+## License
 
     MIT License (MIT)
 
