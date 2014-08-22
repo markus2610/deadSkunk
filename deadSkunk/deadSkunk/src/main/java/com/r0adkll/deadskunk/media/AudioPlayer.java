@@ -1,35 +1,9 @@
-
-/*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.r0adkll.deadskunk.media;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import com.r0adkll.deadskunk.utils.Utils;
 
 import java.io.IOException;
 
@@ -102,9 +76,6 @@ public class AudioPlayer {
 
 			// Set listeners
 			_player.setOnPreparedListener(listener);
-			_player.setOnCompletionListener(new AudioCompletionListener());
-			_player.setOnSeekCompleteListener(new AudioSeekCompleteListener());
-			_player.setOnInfoListener(new AudioInfoListener());
 			_player.setOnErrorListener(new AudioErrorListener());
 
 			try {					
@@ -171,8 +142,6 @@ public class AudioPlayer {
 			// Set listeners
 			_player.setOnPreparedListener(listener);
 			_player.setOnCompletionListener(completeListener);
-			_player.setOnSeekCompleteListener(new AudioSeekCompleteListener());
-			_player.setOnInfoListener(new AudioInfoListener());
 			_player.setOnErrorListener(new AudioErrorListener());
 
 			try {					
@@ -383,32 +352,9 @@ public class AudioPlayer {
 	 * Inner Classes & Interfaces
 	 */
 
-	class AudioCompletionListener implements MediaPlayer.OnCompletionListener{
-		@Override
-		public void onCompletion(MediaPlayer mp) {
-			Utils.log(TAG, "Media Player has reached Completion");
-		}		
-	}
-
-	class AudioSeekCompleteListener implements MediaPlayer.OnSeekCompleteListener{
-		@Override
-		public void onSeekComplete(MediaPlayer mp) {
-			Utils.log(TAG, "Media Player Seek Complete [" + mp.getCurrentPosition() + ", " + mp.getDuration() + "]");
-		}		
-	}
-
-	class AudioInfoListener implements MediaPlayer.OnInfoListener{
-		@Override
-		public boolean onInfo(MediaPlayer mp, int what, int extra) {
-			Utils.log(TAG, "Media Player Info[" + what + ", " + extra + "]");
-			return false;
-		}		
-	}
-
 	class AudioErrorListener implements MediaPlayer.OnErrorListener{
 		@Override
 		public boolean onError(MediaPlayer mp, int what, int extra) {
-			Utils.log(TAG, "Media Player Error[" + what + ", " + extra + "]");
 			STATE = ERROR;
 			return false;
 		}

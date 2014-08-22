@@ -1,36 +1,16 @@
-
 /*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Copyright (c)52apps 2014. All rights reserved.
  */
 
 package com.r0adkll.deadskunk.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.Map;
@@ -80,14 +60,6 @@ public abstract class BetterExpandableListAdapter<H,C> extends BaseExpandableLis
 
     }
 
-    public Context getContext(){
-        return mCtx;
-    }
-
-    public Resources getResources(){
-        return mCtx.getResources();
-    }
-
     /**********************************************************
      *
      * BaseExpandableListAdapter methods
@@ -121,7 +93,7 @@ public abstract class BetterExpandableListAdapter<H,C> extends BaseExpandableLis
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return groupPosition | childPosition;
+        return (groupPosition * 400) + childPosition;
     }
 
     @Override

@@ -1,28 +1,31 @@
-/*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.r0adkll.deadskunk.utils;
+
+/*
+Copyright (C) 2012 Sveinung Kval Bakken, sveinung.bakken@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Modified By: Drew Heavner
+Last Modified Date: 3/5/2014
+
+ */
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -121,10 +124,10 @@ public class SecurePreferences {
      *
      * @param secureKey     the encryption key
      *
-     * @throws java.io.UnsupportedEncodingException
-     * @throws java.security.NoSuchAlgorithmException
-     * @throws java.security.InvalidKeyException
-     * @throws java.security.InvalidAlgorithmParameterException
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws InvalidAlgorithmParameterException
      */
 	protected void initCiphers(String secureKey, String salt) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidAlgorithmParameterException {
@@ -152,8 +155,8 @@ public class SecurePreferences {
      * @param key       the encryption key
      * @return          the secret key spec
      *
-     * @throws java.io.UnsupportedEncodingException
-     * @throws java.security.NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
      */
 	protected SecretKeySpec getSecretKey(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		byte[] keyBytes = createKeyBytes(key);
@@ -166,8 +169,8 @@ public class SecurePreferences {
      * @param key       the encryption key
      * @return          the byte array of the hashed key
      *
-     * @throws java.io.UnsupportedEncodingException
-     * @throws java.security.NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
      */
 	protected byte[] createKeyBytes(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance(SECRET_KEY_HASH_TRANSFORMATION);
@@ -243,7 +246,7 @@ public class SecurePreferences {
      * @param key       the key of the value you wish to receive
      * @return          the unencrypted string value at the provide key, or null
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException
+     * @throws SecurePreferencesException
      */
 	public String getString(String key) throws SecurePreferencesException {
 		if (preferences.contains(toKey(key))) {
@@ -259,7 +262,7 @@ public class SecurePreferences {
      * @param key       the key of the value you wish to retrieve
      * @return          the boolean value if found, otherwise just false
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException       Such error. Much headache. Wow.
+     * @throws SecurePreferencesException       Such error. Much headache. Wow.
      */
     public boolean getBoolean(String key) throws SecurePreferencesException{
         if(preferences.contains(toKey(key))){
@@ -276,7 +279,7 @@ public class SecurePreferences {
      * @param key       the key of the set
      * @return          the Set of strings unencoded
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException       Such error. Much headache. Wow.
+     * @throws SecurePreferencesException       Such error. Much headache. Wow.
      */
     public Set<String> getStringSet(String key) throws SecurePreferencesException{
         if(preferences.contains(toKey(key))){
@@ -317,7 +320,7 @@ public class SecurePreferences {
      * @param key       the transformed or raw key
      * @param value     the value you want to encrypt and store
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException
+     * @throws SecurePreferencesException
      */
 	private void putValue(String key, String value) throws SecurePreferencesException {
 		String secureValueEncoded = encrypt(value, writer);
@@ -330,7 +333,7 @@ public class SecurePreferences {
      *
      * @param key       the key value
      * @param value     the unencoded value set
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException       oh shit, something done goofed.
+     * @throws SecurePreferencesException       oh shit, something done goofed.
      */
     private void putSetValue(String key, Set<String> value) throws SecurePreferencesException{
         // Generate Secure String set
@@ -357,7 +360,7 @@ public class SecurePreferences {
      * @param writer    the encryption cipher
      * @return          the encrypted value
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException
+     * @throws SecurePreferencesException
      */
 	protected String encrypt(String value, Cipher writer) throws SecurePreferencesException {
 		byte[] secureValue;
@@ -395,7 +398,7 @@ public class SecurePreferences {
      * @param bs            the byte array of encoded values
      * @return              the ciphered byte array
      *
-     * @throws com.r0adkll.deadskunk.utils.SecurePreferences.SecurePreferencesException
+     * @throws SecurePreferencesException
      */
 	private static byte[] convert(Cipher cipher, byte[] bs) throws SecurePreferencesException {
 		try {

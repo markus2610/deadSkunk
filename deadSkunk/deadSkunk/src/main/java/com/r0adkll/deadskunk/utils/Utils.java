@@ -1,27 +1,3 @@
-/*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.r0adkll.deadskunk.utils;
 
 import android.app.ActivityManager;
@@ -31,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -38,10 +15,12 @@ import android.webkit.MimeTypeMap;
 
 import java.net.URLConnection;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.IllegalFormatException;
 import java.util.Locale;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -52,16 +31,10 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class Utils {
-	
+
 	/**
 	 * Constants
 	 */
-
-	/*
-	 * This is the 'DEBUG' flag that signifies whether this application
-	 * is in development mode, or production mode
-	 */
-	public static boolean DEBUG = false;
 
 	/**
 	 * Variables
@@ -69,7 +42,9 @@ public class Utils {
 	
 	// Random generator for use in the application
 	private static Random random = new Random();
-	
+    private static Random nanoRandom;
+
+
 	/* 
 	 * Float Format Constants 
 	 */
@@ -78,16 +53,8 @@ public class Utils {
 	public static final String THREE_DIGIT = "%.3f";
 
 	/**
-	 * Turn on debugging
-	 * @param value
-	 */
-	public static void setDebug(boolean value){
-		DEBUG = value;
-	}
-
-	/**
 	 * Get the Random Number Generator
-	 * @return
+	 * @return  the static random class
 	 */
 	public static Random getRandom(){ return random; }
 
@@ -98,7 +65,8 @@ public class Utils {
      * @return  nano seeded random
      */
     public static Random getNanoRandom(){
-        return new Random(System.nanoTime());
+        if(nanoRandom == null) nanoRandom = new Random(System.nanoTime());
+        return nanoRandom;
     }
 	
 	/**
@@ -131,6 +99,22 @@ public class Utils {
 	}
 
     /**
+     * Format a double number to a specified number of decimal places
+     *
+     * @param input             the double input
+     * @param decimalPlaces     the number of decimal places allowed
+     * @return                  the formated string output
+     */
+    public static String formatDecimal(double input, int decimalPlaces){
+        String formatString = "#.";
+        for(int i=0; i<decimalPlaces; i++){
+            formatString = formatString.concat("#");
+        }
+        DecimalFormat df = new DecimalFormat(formatString);
+        return df.format(input);
+    }
+
+    /**
      * Return whether or not this device is a tablet or a phone (2)
      * This one is slightly more efficient than the first one
      * by using the same comparison as the resource buckets for determining
@@ -160,100 +144,6 @@ public class Utils {
         }
 
         return false;
-    }
-
-    /**
-     * Return a user readable string of the time elapsed since the date
-     * provided and the current time. i.e. 2s, 4h 10m, 5days
-     * @param date      the comparison date
-     * @return          the user readable string
-     */
-    public static String printTimeDuration(java.util.Date date){
-        if(date == null) return "";
-
-        // get the different in milliseconds
-        long targetDateMS = date.getTime();
-        long currentDateMS = System.currentTimeMillis();
-        long timeDiffMS = Math.abs(currentDateMS - targetDateMS);
-
-        long days = TimeUnit.MILLISECONDS.toDays(timeDiffMS);
-        long hours = TimeUnit.MILLISECONDS.toHours(timeDiffMS);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDiffMS);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeDiffMS);
-
-        if(days > 0){
-
-            String suffix = days == 1 ? "day" : "days";
-            String time = String.valueOf(days) + suffix;
-            return time;
-
-        }else if(hours > 0){
-
-            long min = (minutes - (hours * 60));
-            String timeMin = " " + String.valueOf(min) + "m";
-            String time = String.valueOf(hours) + "h" + ((min > 0) ? timeMin : "");
-            return time;
-
-        }else if(minutes > 0){
-
-            String time = String.valueOf(minutes) + "m";
-            return time;
-
-        }else if(seconds > 0){
-
-            String time = String.valueOf(seconds) + "s";
-            return time;
-
-        }
-
-        return "a while";
-    }
-
-    /**
-     * Print the time duration of the date given from the current time
-     *
-     * @param date      the comparison date
-     * @return          the user readable string
-     */
-    public static String printTimeDurationLong(java.util.Date date){
-        if(date == null) return "";
-
-        // get the different in milliseconds
-        long targetDateMS = date.getTime();
-        long currentDateMS = System.currentTimeMillis();
-        long timeDiffMS = Math.abs(currentDateMS - targetDateMS);
-
-        long days = TimeUnit.MILLISECONDS.toDays(timeDiffMS);
-        long hours = TimeUnit.MILLISECONDS.toHours(timeDiffMS);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDiffMS);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeDiffMS);
-
-        if(days > 0){
-
-            String suffix = days == 1 ? " day" : " days";
-            String time = String.valueOf(days) + suffix;
-            return time;
-
-        }else if(hours > 0){
-
-            long min = (minutes - (hours * 60));
-            String timeMin = " " + String.valueOf(min) + "m";
-            String time = String.valueOf(hours) + "h" + ((min > 0) ? timeMin : "");
-            return time;
-
-        }else if(minutes > 0){
-
-            String time = String.valueOf(minutes) + " minutes";
-            return time;
-
-        }else if(seconds > 0){
-
-            String time = String.valueOf(seconds) + " seconds";
-            return time;
-
-        }
-
-        return "a while";
     }
 
     /**
@@ -300,44 +190,40 @@ public class Utils {
 	}
 
     /**
-     * Check to see if this device is running
-     * ICS or greater
+     * Return whether or not the device is running KitKat 4.4
+     * @return
      */
-    public static boolean isICS(){
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH);
+    public static boolean isKitKat(){
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
     }
+
+    /**
+     * Return whether not the device is running JellyBean 4.3 or greater (MR2)
+     */
+    public static boolean isJellyBeanMR2(){
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
+    }
+
+    /**
+     * Check to see if this device is running JellyBean 4.2 or greater (MR1)
+     */
+    public static boolean isJellyBeanMR1() { return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1); }
 	
 	/**
 	 * Check to see if this device is running
-	 * Jelly Bean 4.1 or greater
+	 * Jelly Bean or not
 	 */
 	public static boolean isJellyBean(){
 		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN);
 	}
 
-    /**
-     * Return whether or not this device is running
-     * Jellybean 4.2 or greater
-     */
-    public static boolean isJellyBeanMR1() {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1);
-    }
-
-    /**
-     * Return whether or not this device is running
-     * Jellybean 4.3 or greater
-     */
-    public static boolean isJellyBeanMR2() {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
-    }
-
-    /**
-     * Return whether or not this device is running
-     * KitKat (4.4) or greater
-     */
-    public static boolean isKitKat(){
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
-    }
+	/**
+	 * Check to see if this device is running
+	 * ICS or greater
+	 */
+	public static boolean isICS(){
+		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH);
+	}
 	
 	/**
 	 * Get the MIME type of a file
@@ -420,11 +306,10 @@ public class Utils {
 			return String.format(precision + " KB", kilo);
 		else 
 			return bytes + " b";
+				
 	}
 
-
-	
-	/**
+    /**
 	 * Start the email with pre-filled information
 	 */
 	public static void sendSupportEmail(Context ctx, String addr, String subject){
@@ -461,71 +346,73 @@ public class Utils {
     }
 
     /**
-     * Convert Density Independent Pixels to Pixels
+     * Convert Density-Independent Pixels to actual pixels
      *
-     * @param ctx   the application context
-     * @param dp    the dp unit to convert
-     * @return      the px amount for dp
+     * @param ctx       the application context
+     * @param dpSize    the size in DP units
+     * @return          the size in Pixel units
      */
-    public static float dpToPx(Context ctx, float dp){
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ctx.getResources().getDisplayMetrics());
+    public static float dpToPx(Context ctx, float dpSize) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, ctx.getResources().getDisplayMetrics());
     }
-
-	/**
-	 * Easy method for Logging 'DEBUG' messages
-	 * @param msg		the message
-	 * @param tag		the identifing tag
-	 */
-	public static void log(String tag, String msg){
-		log(Log.DEBUG, tag, msg);
-	}
-
-	/**
-	 * Easy method for Logging 'INFO' messages
-	 * @param tag		the message
-	 * @param msg		the identifing tag
-	 */
-	public static void logi(String tag, String msg){
-		log(Log.INFO, tag, msg);
-	}
-
-	/**
-	 * Easy method for Logging 'ERROR' messages
-	 * @param tag		the message
-	 * @param msg		the identifing tag
-	 */
-	public static void loge(String tag, String msg){
-		log(Log.ERROR, tag, msg);
-	}
-
-	/**
-	 * Easy method for Logging 'WARN' messages
-	 * @param tag		the message
-	 * @param msg		the identifing tag
-	 */
-	public static void logw(String tag, String msg){
-		log(Log.WARN, tag, msg);
-	}
 
     /**
-     * Easy method for Loggin 'WTF' messages
-     * @param tag
-     * @param msg
+     * Convert Scale-Dependent Pixels to actual pixels
+     *
+     * @param ctx       the application context
+     * @param spSize    the size in SP units
+     * @return          the size in Pixel units
      */
-    public static void logwtf(String tag, String msg){
-        if(DEBUG)
-            Log.wtf(tag, msg);
+    public static float spToPx(Context ctx, float spSize){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spSize, ctx.getResources().getDisplayMetrics());
     }
 
-	/**
-	 * Easy Wrapper to printing to android Log
-	 * @param priority		the message priority
-	 * @param msg			the message
-	 * @param tag			the identifing tag
-	 */
-	public static void log(int priority, String tag, String msg){
-		if(DEBUG)
-			Log.println(priority, tag, msg);
-	}
+    /**
+     * Clamp Integer values to a given range
+     *
+     * @param value     the value to clamp
+     * @param min       the minimum value
+     * @param max       the maximum value
+     * @return          the clamped value
+     */
+    public static int clamp(int value, int min, int max){
+        return Math.max(min, Math.min(max, value));
+    }
+
+    /**
+     * Clamp Float values to a given range
+     *
+     * @param value     the value to clamp
+     * @param min       the minimum value
+     * @param max       the maximum value
+     * @return          the clamped value
+     */
+    public static float clamp(float value, float min, float max){
+        return Math.max(min, Math.min(max, value));
+    }
+
+    /**
+     * Clamp Long values to a given range
+     *
+     * @param value     the value to clamp
+     * @param min       the minimum value
+     * @param max       the maximum value
+     * @return          the clamped value
+     */
+    public static long clamp(long value, long min, long max){
+        return Math.max(min, Math.min(max, value));
+    }
+
+    /**
+     * Clamp Double values to a given range
+     *
+     * @param value     the value to clamp
+     * @param min       the minimum value
+     * @param max       the maximum value
+     * @return          the clamped value
+     */
+    public static double clamp(double value, double min, double max){
+        return Math.max(min, Math.min(max, value));
+    }
 
 }

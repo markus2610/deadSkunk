@@ -1,31 +1,8 @@
-/*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.r0adkll.deadskunk.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import timber.log.Timber;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -72,6 +49,37 @@ public class FileUtils {
 		
 		return mediastate;
 	}
+
+    /**
+     * Dump Data straight to the SDK Card
+     *
+     * @param ctx           the application context
+     * @param filename      the dump filename
+     * @param data          the data to dump
+     * @return              the return
+     */
+    public static int crapToDisk(Context ctx, String filename, byte[] data){
+        int code = IO_FAIL;
+
+        File dir = Environment.getExternalStorageDirectory();
+        File output = new File(dir, filename);
+        try {
+            FileOutputStream fos = new FileOutputStream(output);
+            try {
+                fos.write(data);
+                code = IO_SUCCESS;
+            } catch (IOException e) {
+                code = IO_FAIL;
+            } finally {
+                fos.close();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return code;
+    }
 	
 	/**
 	 * Write a file, passed as a byte array, to the internal storage
@@ -93,10 +101,10 @@ public class FileUtils {
 			code = IO_SUCCESS;			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		}
 		return code;		
 	}
@@ -120,10 +128,10 @@ public class FileUtils {
 			return buffer;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		}
 		
 		return null;		
@@ -158,10 +166,10 @@ public class FileUtils {
 				code = IO_SUCCESS;
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+				Timber.e("Error: " + e.getLocalizedMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+				Timber.e("Error: " + e.getLocalizedMessage());
 			}
 		}
 		return code;
@@ -173,8 +181,6 @@ public class FileUtils {
 	 * 
 	 * @param ctx			the application context
 	 * @param FILENAME		the file name/path
-	 * @param data			the file data
-	 * @param writemode		the write mode
 	 * @return				the IO result code
 	 */
 	public static byte[] readFileToExternal(Context ctx, String FILENAME){
@@ -197,9 +203,9 @@ public class FileUtils {
 				// Return the raw data
 				return buffer;				
 			} catch (FileNotFoundException e) {
-				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+				Timber.e("Error: " + e.getLocalizedMessage());
 			} catch (IOException e) {
-				Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+				Timber.e("Error: " + e.getLocalizedMessage());
 			}
 		}
 		return null;
@@ -208,7 +214,7 @@ public class FileUtils {
 	/**
 	 * Write a serializable object to the cache
 	 * @param ctx
-	 * @param filepath
+	 * @param filename
 	 * @param obj
 	 * @return
 	 */
@@ -223,9 +229,9 @@ public class FileUtils {
 			oos.close();
 			code = FileUtils.IO_SUCCESS;
 		} catch (FileNotFoundException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		}
 		return code;
 	}
@@ -245,13 +251,13 @@ public class FileUtils {
 			ois.close();
 			return src;
 		} catch (StreamCorruptedException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (FileNotFoundException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (IOException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		} catch (ClassNotFoundException e) {
-			Utils.log(TAG, "Error: " + e.getLocalizedMessage());
+			Timber.e("Error: " + e.getLocalizedMessage());
 		}
 		
 		return null;
@@ -304,7 +310,7 @@ public class FileUtils {
 	            sb.append(Character.forDigit(a[i] & 0x0f, 16));
 	        }
 	        return sb.toString();
-	    } catch (NoSuchAlgorithmException e) { Utils.log(TAG, "Error: " + e.getLocalizedMessage()); }
+	    } catch (NoSuchAlgorithmException e) { Timber.e("Error: " + e.getLocalizedMessage()); }
 	    return null;
 	}
 }

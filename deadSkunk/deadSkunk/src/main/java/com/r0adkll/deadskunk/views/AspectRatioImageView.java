@@ -1,32 +1,11 @@
-/*
- * MIT License (MIT)
- *
- * Copyright (c) 2014 Drew Heavner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.r0adkll.deadskunk.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.ImageView;
+import com.r0adkll.deadskunk.R;
 
 /**
  * This was created based on a snippet from StackOverflow 
@@ -39,6 +18,13 @@ import android.widget.ImageView;
  */
 public class AspectRatioImageView extends ImageView{
 
+    // Ratio Type Constants
+    public static final int RATIO_WIDTH = 0;
+    public static final int RATIO_HEIGHT = 1;
+
+    // The Ratio Type
+    private int mRatioType = 0;
+
 	/**
 	 * Constructor
 	 * @param context
@@ -49,12 +35,27 @@ public class AspectRatioImageView extends ImageView{
 	
 	public AspectRatioImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+        inflateAttributes(context, attrs);
 	}
 
 	public AspectRatioImageView(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
+        inflateAttributes(context, attrs);
 	}
+
+    private void inflateAttributes(Context context, AttributeSet attrs){
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.AspectRatioImageView,
+                0, 0);
+
+        try {
+            mRatioType = a.getInteger(R.styleable.AspectRatioImageView_ratioType, 0);
+        } finally {
+            a.recycle();
+        }
+    }
 
 	/**
 	 * Maintain Image Aspect Ratio no matter the size
@@ -62,11 +63,18 @@ public class AspectRatioImageView extends ImageView{
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		
+        int dimHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_height); //(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 140, getResources().getDisplayMetrics());
+
 		if(getDrawable() != null){
-		    int width = MeasureSpec.getSize(widthMeasureSpec);
-		    int height = Math.round(width * ((float)getDrawable().getIntrinsicHeight() / (float)getDrawable().getIntrinsicWidth()));
-		    setMeasuredDimension(width, height);
+            if(mRatioType == RATIO_WIDTH) {
+                int width = MeasureSpec.getSize(widthMeasureSpec);
+                int height = Math.round(width * ((float) getDrawable().getIntrinsicHeight() / (float) getDrawable().getIntrinsicWidth()));
+                setMeasuredDimension(width, height);
+            }else if(mRatioType == RATIO_HEIGHT){
+                int height = dimHeight;
+                int width = Math.round(height * ((float) getDrawable().getIntrinsicWidth() / (float) getDrawable().getIntrinsicHeight()));
+                setMeasuredDimension(width, height);
+            }
 		}else{
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		}

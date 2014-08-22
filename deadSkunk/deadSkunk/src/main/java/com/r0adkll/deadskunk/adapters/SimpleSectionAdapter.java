@@ -18,6 +18,7 @@ package com.r0adkll.deadskunk.adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class SimpleSectionAdapter<T> extends BaseAdapter {
     private BaseAdapter mListAdapter;
     private int mSectionHeaderLayoutId;
     private int mSectionTitleTextViewId;
+    private Typeface mTypeface;
     private Sectionizer<T> mSectionizer;
     private LinkedHashMap<String, Integer> mSections;
     private final DataSetObserver dataSetObserver = new DataSetObserver() {
@@ -94,6 +96,10 @@ public class SimpleSectionAdapter<T> extends BaseAdapter {
         findSections();
     }
 
+    public void setTypeface(Typeface typeface){
+        mTypeface = typeface;
+    }
+
     private boolean isTextView(Context context, int layoutId, int textViewId) {
         View inflatedView = View.inflate(context, layoutId, null);
         View foundView = inflatedView.findViewById(textViewId);
@@ -134,6 +140,8 @@ public class SimpleSectionAdapter<T> extends BaseAdapter {
         if(sectionHolder != null) {
             String sectionName = sectionTitleForPosition(position);
             sectionHolder.titleTextView.setText(sectionName);
+            if(mTypeface != null)
+                sectionHolder.titleTextView.setTypeface(mTypeface);
         }
 
         return view;
@@ -250,4 +258,5 @@ public class SimpleSectionAdapter<T> extends BaseAdapter {
     public void unregisterDataSetObserver( DataSetObserver observer ) {
         mListAdapter.unregisterDataSetObserver(observer);
     }
+
 }
