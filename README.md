@@ -23,6 +23,11 @@ This is my personal Android library filled with useful tools that i have built o
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
 * **Pools** - An object recycling pattern that helps to keep for recreating objects
 
+## Importing
+Include this in your gradle file
+
+	compile 'com.r0adkll:deadskunk:+'
+
 ## Special Note
 Some of the features that were once in this library have been removed in favor of a better counter-part library that i segmented into it's own entity. Here are the list of my libraries which evolved from some of the features:
 

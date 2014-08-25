@@ -31,3 +31,5 @@ dependencies {
     compile "com.android.support:support-v4:19.0.0"
     compile 'com.jakewharton.timber:timber:+'
 }
+
+apply from: '../gradle-mvn-push.gradle'

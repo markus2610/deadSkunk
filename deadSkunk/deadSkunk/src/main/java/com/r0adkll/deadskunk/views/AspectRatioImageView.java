@@ -35,27 +35,12 @@ public class AspectRatioImageView extends ImageView{
 	
 	public AspectRatioImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-        inflateAttributes(context, attrs);
 	}
 
 	public AspectRatioImageView(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
-        inflateAttributes(context, attrs);
 	}
-
-    private void inflateAttributes(Context context, AttributeSet attrs){
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.AspectRatioImageView,
-                0, 0);
-
-        try {
-            mRatioType = a.getInteger(R.styleable.AspectRatioImageView_ratioType, 0);
-        } finally {
-            a.recycle();
-        }
-    }
 
 	/**
 	 * Maintain Image Aspect Ratio no matter the size
@@ -63,7 +48,7 @@ public class AspectRatioImageView extends ImageView{
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int dimHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_height); //(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 140, getResources().getDisplayMetrics());
+        int dimHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 140, getResources().getDisplayMetrics());
 
 		if(getDrawable() != null){
             if(mRatioType == RATIO_WIDTH) {
