@@ -13,12 +13,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.0.0'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 21
+
+        renderscriptTargetApi 21
+        renderscriptSupportMode true
     }
 
     compileOptions {
@@ -28,7 +31,7 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:support-v4:19.0.0"
+    compile "com.android.support:support-v4:21.0.0"
     compile 'com.jakewharton.timber:timber:+'
 }
 

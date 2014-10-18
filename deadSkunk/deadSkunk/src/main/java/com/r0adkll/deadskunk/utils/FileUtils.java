@@ -288,7 +288,62 @@ public class FileUtils {
 		}
 		return false;
 	}
-	
+
+    /**
+     * Copy a file from it's source input to the specified output
+     * file if it can.
+     *
+     * @param source        the input file to copy
+     * @param output        the output destination
+     * @return              true if successful, false otherwise
+     */
+    public static boolean copy(File source, File output){
+
+        // Check to see if output exists
+        if(output.exists() && output.canWrite()){
+            // Delete the existing file, and create a new one
+            if(output.delete()) {
+                try {
+                    output.createNewFile();
+                } catch (IOException e) {
+                    Timber.e(e, "Error creating new output file for copying");
+                }
+            }
+        }else if(!output.exists()){
+            try {
+                output.createNewFile();
+            } catch (IOException e) {
+                Timber.e(e, "Error creating new output file for copying");
+            }
+        }
+
+        // now that we have performed a prelimanary check on the output, time to copy
+        if(source.exists() && source.canRead()){
+
+            try {
+                FileInputStream fis = new FileInputStream(source);
+                FileOutputStream fos = new FileOutputStream(output);
+                byte[] buffer = new byte[1024];
+
+                int len=0;
+                while((len=fis.read(buffer)) > 0){
+                    fos.write(buffer, 0, len);
+                }
+
+                fis.close();
+                fos.close();
+
+                return true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return false;
+    }
 	
 	/**
 	 * Hash a string in md5

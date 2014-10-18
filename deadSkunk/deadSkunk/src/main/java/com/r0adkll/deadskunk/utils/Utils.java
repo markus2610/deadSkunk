@@ -4,10 +4,16 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -188,6 +194,13 @@ public class Utils {
 		Calendar now = Calendar.getInstance();
 		return (now.get(Calendar.ZONE_OFFSET) + now.get(Calendar.DST_OFFSET))  / 3600000;
 	}
+
+    /**
+     * Return whether or not the device is running Lollipop 5.0
+     */
+    public static boolean isLollipop(){
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+    }
 
     /**
      * Return whether or not the device is running KitKat 4.4
@@ -413,6 +426,69 @@ public class Utils {
      */
     public static double clamp(double value, double min, double max){
         return Math.max(min, Math.min(max, value));
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * Get a thumbnail bitmap for a given video
+     *
+     * @param videoPath     the path to the video
+     * @return              the thumbnail of the video, or null
+     */
+    public static Bitmap getVideoThumbnail(String videoPath){
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(videoPath);
+        return mmr.getFrameAtTime();
+    }
+
+    /**
+     * Blur an image
+     *
+     * @param src       the bitmap to blur
+     * @param radius    the pixel radius to blur at
+     * @return          the blurred bitmap
+     */
+    public static Bitmap blurImage(Context ctx, Bitmap src, float radius){
+        // Load a clean bitmap and work from that.
+        Bitmap blurredBmp = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+
+        RenderScript rs = RenderScript.create(ctx);
+
+        Allocation input = Allocation.createFromBitmap(rs, src);
+        Allocation output = Allocation.createTyped(rs, input.getType());
+
+        ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        script.setInput(input);
+
+        script.setRadius(radius);
+        script.forEach(output);
+
+        output.copyTo(blurredBmp);
+
+        return blurredBmp;
     }
 
 }
