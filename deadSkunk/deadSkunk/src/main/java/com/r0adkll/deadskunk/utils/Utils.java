@@ -9,13 +9,11 @@ import android.graphics.PointF;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.webkit.MimeTypeMap;
 
@@ -26,7 +24,6 @@ import java.util.Calendar;
 import java.util.IllegalFormatException;
 import java.util.Locale;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
