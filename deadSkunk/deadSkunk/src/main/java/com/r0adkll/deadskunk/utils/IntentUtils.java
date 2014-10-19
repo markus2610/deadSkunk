@@ -336,8 +336,27 @@ public class IntentUtils {
      * </code></pre>
      */
     public static Intent pickFile() {
+        return pick("file/*");
+    }
+
+    /**
+     * Pick a type of file from the sdcard with the file manager.
+     * Chosen file can be obtained from Intent in onActivityResult.
+     * See code below for example:
+     * <p/>
+     * <pre><code>
+     *     @Override
+     *     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+     *         Uri file = data.getData();
+     *     }
+     * </code></pre>
+     *
+     * @param mimeType      the type of file to pick
+     * @return              the intent to pick it
+     */
+    public static Intent pick(String mimeType) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("file/*");
+        intent.setType(mimeType);
         return intent;
     }
 

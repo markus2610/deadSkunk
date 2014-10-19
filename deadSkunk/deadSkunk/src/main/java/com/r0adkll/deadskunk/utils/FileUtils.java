@@ -9,7 +9,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class FileUtils {
-    private static final String TAG = "FILE_UTILS";
 
 	/**
 	 * Constants
@@ -23,9 +22,7 @@ public class FileUtils {
 	public static final int IO_FAIL = -1;
 	public static final int IO_SUCCESS = 0;
 	
-	
-	
-	
+
 	/**
 	 * Check the state of the external media (i.e. SDCard) on whether 
 	 * it is read/write, read only, or unavailable
@@ -51,7 +48,7 @@ public class FileUtils {
 	}
 
     /**
-     * Dump Data straight to the SDK Card
+     * Dump Data straight to the SDCard
      *
      * @param ctx           the application context
      * @param filename      the dump filename
@@ -80,188 +77,6 @@ public class FileUtils {
 
         return code;
     }
-	
-	/**
-	 * Write a file, passed as a byte array, to the internal storage
-	 * with the passed write mode
-	 * 
-	 * @param ctx			the application context
-	 * @param FILENAME		the name of the file to save
-	 * @param data			the data to save to the file
-	 * @param writemode		the mode to write the data in.
-	 * @return				the Success or Failure of writing the file
-	 */
-	public static int writeFileToInternal(Context ctx, String FILENAME, byte[] data , int writemode){
-		int code = IO_FAIL;		
-		try {
-			
-			FileOutputStream fos = ctx.openFileOutput(FILENAME, writemode);
-			fos.write(data);
-			fos.close();
-			code = IO_SUCCESS;			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Timber.e("Error: " + e.getLocalizedMessage());
-		}
-		return code;		
-	}
-	
-	/**
-	 * This will read a file from the internal storage
-	 * and return the contents in a byte[] buffer.
-	 * 
-	 * @param ctx			the application context
-	 * @param FILENAME		the name of the file
-	 * @return				the byte array of data in the file
-	 */
-	public static byte[] readFileFromInternal(Context ctx, String FILENAME){
-		byte[] buffer;
-		
-		try {
-			FileInputStream fis = ctx.openFileInput(FILENAME);
-			buffer = new byte[fis.available()];			
-			fis.read(buffer);
-			fis.close();			
-			return buffer;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Timber.e("Error: " + e.getLocalizedMessage());
-		}
-		
-		return null;		
-	}
-	
-	
-	/**
-	 * Write a file to the external drive (sdcard)
-	 * 
-	 * 
-	 * @param ctx			the application context
-	 * @param FILENAME		the file name/path
-	 * @param data			the file data
-	 * @param writemode		the write mode
-	 * @return				the IO result code
-	 */
-	public static int writeFileToExternal(Context ctx, String FILENAME, byte[] data, int writemode){
-		int code = IO_FAIL;
-		// Verify Media State
-		int state = checkMediaState();
-		if(state == READ_WRITE){
-			
-			// Get external directory
-			File dir = ctx.getExternalFilesDir(null);
-			
-			// get file to write
-			try {
-				// Create file output stream
-				FileOutputStream fos = new FileOutputStream(new File(dir.getAbsolutePath().concat(FILENAME)));
-				fos.write(data);
-				fos.close();				
-				code = IO_SUCCESS;
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				Timber.e("Error: " + e.getLocalizedMessage());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				Timber.e("Error: " + e.getLocalizedMessage());
-			}
-		}
-		return code;
-	}
-	
-	/**
-	 * Write a file to the external drive (sdcard)
-	 * 
-	 * 
-	 * @param ctx			the application context
-	 * @param FILENAME		the file name/path
-	 * @return				the IO result code
-	 */
-	public static byte[] readFileToExternal(Context ctx, String FILENAME){
-		
-		// Verify Media State
-		int state = checkMediaState();
-		if(state == READ_WRITE){
-			
-			// Get external directory
-			File dir = ctx.getExternalFilesDir(null);
-			
-			// get file to write
-			try {
-				// Create file output stream
-				FileInputStream fis = new FileInputStream(new File(dir.getAbsolutePath().concat(FILENAME)));
-				byte[] buffer = new byte[fis.available()];
-				fis.read(buffer);
-				fis.close();
-				
-				// Return the raw data
-				return buffer;				
-			} catch (FileNotFoundException e) {
-				Timber.e("Error: " + e.getLocalizedMessage());
-			} catch (IOException e) {
-				Timber.e("Error: " + e.getLocalizedMessage());
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Write a serializable object to the cache
-	 * @param ctx
-	 * @param filename
-	 * @param obj
-	 * @return
-	 */
-	public static int writeObjectToInternal(Context ctx, String filename, Serializable obj){
-		int code = FileUtils.IO_FAIL;
-
-		try {
-			File filesDir = ctx.getFilesDir();
-			File output = new File(filesDir, filename);
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(output));
-			oos.writeObject(obj);
-			oos.close();
-			code = FileUtils.IO_SUCCESS;
-		} catch (FileNotFoundException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (IOException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		}
-		return code;
-	}
-	
-	/**
-	 * Read an object from disk that was written via serialization
-	 * @param ctx
-	 * @param filename
-	 * @return
-	 */
-	public static Object readObject(Context ctx, String filename){
-		try {
-			File filesDir = ctx.getFilesDir();
-			File input = new File(filesDir, filename);
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input));
-			Object src = ois.readObject();
-			ois.close();
-			return src;
-		} catch (StreamCorruptedException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (FileNotFoundException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (IOException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		} catch (ClassNotFoundException e) {
-			Timber.e("Error: " + e.getLocalizedMessage());
-		}
-		
-		return null;
-	}
 	
 	/**
 	 * Delete a directory recursively 

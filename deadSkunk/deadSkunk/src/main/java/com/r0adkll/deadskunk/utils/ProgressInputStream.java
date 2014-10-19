@@ -19,7 +19,7 @@ public class ProgressInputStream extends FilterInputStream {
      */
     private final long mInputLength;
     private volatile long mTotalBytesRead;
-    private ProgressUpdateHandler mUpdateHandler;
+    private OnProgressListener mProgressListener;
 
     /**
      * Constructor
@@ -27,11 +27,11 @@ public class ProgressInputStream extends FilterInputStream {
      * @param in
      * @param maxNumBytes
      */
-    public ProgressInputStream(InputStream in, long maxNumBytes, ProgressUpdateHandler handler) {
+    public ProgressInputStream(InputStream in, long maxNumBytes, OnProgressListener handler) {
         super(in);
         mTotalBytesRead = 0;
         mInputLength = maxNumBytes;
-        mUpdateHandler = handler;
+        mProgressListener = handler;
     }
 
     @Override
@@ -44,16 +44,6 @@ public class ProgressInputStream extends FilterInputStream {
         return updateProgress(super.read());
     }
 
-    @Override
-    public int read(byte[] b, int off, int len) throws IOException {
-        return updateProgress(super.read(b, off, len));
-    }
-
-    @Override
-    public int read(byte[] buffer) throws IOException {
-        return updateProgress(super.read(buffer));
-    }
-
     /**
      * Internal method to update the io progress
      *
@@ -62,21 +52,23 @@ public class ProgressInputStream extends FilterInputStream {
      */
     private int updateProgress(final int numBytesRead) {
         if (numBytesRead > 0) {
-            mTotalBytesRead += (numBytesRead / 2);
+            mTotalBytesRead += numBytesRead;
         }
 
         // Update the progress listener
-        mUpdateHandler.onProgress(mTotalBytesRead, mInputLength);
+        mProgressListener.onProgress(mTotalBytesRead, mInputLength);
 
         return numBytesRead;
     }
 
-    /**
-     * *********************************************************
+    /***********************************************************
+     *
      * Inner Interfaces
+     *
      */
 
-    public static interface ProgressUpdateHandler {
+
+    public static interface OnProgressListener {
         public void onProgress(long read, long total);
     }
 
