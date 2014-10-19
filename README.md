@@ -1,4 +1,5 @@
 # deadSkunk
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/deadskunk/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/deadskunk)
 
 This is my personal Android library filled with useful tools that i have built over the year, i continue to improve them as i continue my job as an Android Developer.
 
