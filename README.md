@@ -7,10 +7,6 @@ This is my personal Android library filled with useful tools that i have built o
 * **BetterListAdapter**      - A list adapter that re-uses views and is far more efficient than the plain way
 * **BetterExpandableListAdapter** - An expandable list adapter that re-uses views with the ViewHolder pattern
 * **SimpleSectionAdapter**   - A simple adapter for applying non-sticky listview sections and section headers
-* **StringPickerDialog**     - a modal that can have multiple item/number pickers for selecting premade choices
-* **WebViewFragment**        - a very basic no frills WebView fragment for displaying webcontent within your application.
-* **Audio Player**           - a simple audio player, can play local and remote files
-* **Audio Recorder**         - a simple audio recorder based on the MediaRecorder object. 
 * **BCrypt**                 - the handy hashing and crypto library 
 * **FNV Hashing**            - FNV Hash utility
 * **CacheTool**              - a simple helper class for writing data to the cache partition
@@ -21,7 +17,6 @@ This is my personal Android library filled with useful tools that i have built o
 * **AspectRatioImageView**   - an image view that maintains the aspect ratio of the source image
 * **SmoothSeekBarChangeListener** - a helper class that smooths out seekbar seeking no matter the range of values
 * **IntentUtils**			  - Intent Utility for common intents [IntentUtils](https://github.com/d-tarasov/android-intents)
-* **Pools** - An object recycling pattern that helps to keep for recreating objects
 
 ## Importing
 Include this in your gradle file
